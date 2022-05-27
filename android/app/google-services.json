@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025739921016",
+    "project_id": "predictas",
+    "storage_bucket": "predictas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025739921016:android:a51c983a1844508c3cff8d",
+        "android_client_info": {
+          "package_name": "com.example.predictas1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025739921016-fuiut7vb23bif21fjl7su4ujkjna0fvj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmbUPdfM4EXbgUYYg_CZntdTM7ABDXVdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025739921016-fuiut7vb23bif21fjl7su4ujkjna0fvj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
