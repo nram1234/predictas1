@@ -443,6 +443,7 @@ var data;
   }
 
   Future< List<RefJson>>  getTown(id)async{
+    town=null;
     List<RefJson> towns = [];
   await  dioSingleton.dio.get('https://lecoinoccasion.fr/api/v1/simple/towns/$id').then((value) {
       print(value.data);
