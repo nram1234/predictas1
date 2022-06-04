@@ -26,6 +26,12 @@ TextEditingController textEditingController=TextEditingController();
   RefJson? town;
   AdvertsJson? advertsJson;
 
+
+  List<RefJson>? regions = [];
+  RefJson? region;
+
+
+
   @override
   Widget build(BuildContext context) {
     const List <String>
@@ -154,108 +160,159 @@ TextEditingController textEditingController=TextEditingController();
                           },
                         ),
                       ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Container(
-                          width:MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.7,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                blurRadius: 10,
-                                offset: Offset(0, 10),
-                              ),
-                            ],
-                          ),
-                          child:DropdownButton<RefJson>(
-                            underline: SizedBox(),
-                            isExpanded: true,
-                            hint: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8),
-                              child: Text("Gouvernorat"),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: Offset(0, 10),
                             ),
-                            value: city,
-                            iconSize: 24,
-                            elevation: 16,
-                            onChanged: (v){
-                              city=v;
+                          ],
+                        ),
 
-                                getTown(v?.id);
-                              setState(() {
-
-                              });
-                            },
-                            items:  cities
-                                ?.asMap()
-                                .entries
-                                .map<DropdownMenuItem<RefJson>>((value) {
-                              return DropdownMenuItem<RefJson>(
-                                value: value.value,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                  child: Text(value.value.name??""),
-                                ),
-                              );
-                            }).toList(),
+                        child:  DropdownButton<RefJson>(
+                          underline: SizedBox(),
+                          isExpanded: true,
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Text("Gouvernorat"),
                           ),
+                          value: city,
+                          iconSize: 24,
+                          elevation: 16,
+                          onChanged: (v){
+                            city=v;
+
+                            getTown(v?.id);
+                            setState(() {
+
+                            });
+                          },
+                          items:  cities
+                              ?.asMap()
+                              .entries
+                              .map<DropdownMenuItem<RefJson>>((value) {
+                            return DropdownMenuItem<RefJson>(
+                              value: value.value,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0, right: 8),
+                                child: Text(value.value.name??""),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+
+
+                      const SizedBox(
+                        height: 8,
+                      ),
+
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: Offset(0, 10),
+                            ),
+                          ],
+                        ),
+
+                        child:  DropdownButton<RefJson>(
+                          underline: SizedBox(),
+                          isExpanded: true,
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Text("Ville"),
+                          ),
+                          value: town,
+                          iconSize: 24,
+                          elevation: 16,
+                          onChanged:   (v){
+                            town=v;
+                            setState(() {
+
+                            });
+                          },
+                          items: towns
+                              .map<DropdownMenuItem<RefJson>>((RefJson value) {
+                            return DropdownMenuItem<RefJson>(
+                              value: value,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0, right: 8),
+                                child: Text(value.name??""),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(horizontal: 30),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: Offset(0, 10),
+                            ),
+                          ],
+                        ),
+
+                        child: DropdownButton<RefJson>(
+                          underline: SizedBox(),
+                          isExpanded: true,
+                          hint: Padding(
+                            padding: const EdgeInsets.only(left: 8.0, right: 8),
+                            child: Text("Region"),
+                          ),
+                          value: region,
+                          iconSize: 24,
+                          elevation: 16,
+                          onChanged: (v){
+                            region=v;
+
+                            getTown(v?.id);
+                            setState(() {
+
+                            });
+                          },
+                          items:  regions
+                              ?.asMap()
+                              .entries
+                              .map<DropdownMenuItem<RefJson>>((value) {
+                            return DropdownMenuItem<RefJson>(
+                              value: value.value,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0, right: 8),
+                                child: Text(value.value.name??""),
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20,left: 20),
-                        child: Container(
-                            width:MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.7,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  blurRadius: 10,
-                                  offset: Offset(0, 10),
-                                ),
-                              ],
-                            ),
-                            child: DropdownButton<RefJson>(
-                              underline: SizedBox(),
-                              isExpanded: true,
-                              hint: Padding(
-                                padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                child: Text("Ville"),
-                              ),
-                              value: town,
-                              iconSize: 24,
-                              elevation: 16,
-                              onChanged:   (v){
-town=v;
-setState(() {
-
-});
-                              },
-                              items: towns
-                                  .map<DropdownMenuItem<RefJson>>((RefJson value) {
-                                return DropdownMenuItem<RefJson>(
-                                  value: value,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0, right: 8),
-                                    child: Text(value?.name??""),
-                                  ),
-                                );
-                              }).toList(),
-                            )),
-                      )
-
 
                     ],
                   ),
@@ -312,7 +369,8 @@ setState(() {
   @override
   void initState() {
     super.initState();
-    getCity();
+    getRegions();
+  getCity();
   }
 
   /*   searchCity(String query) {
@@ -335,7 +393,7 @@ setState(() {
 var data;
 
     await dioSingleton.dio
-        .get('https://lecoinoccasion.fr/api/v1/adverts?categoryGroup=6&town=${town?.id}&city=${city?.id}&search=$filters'//, queryParameters: filters
+        .get('https://lecoinoccasion.fr/api/v1/adverts?categoryGroup=6&town=${town?.id}&regions=${region?.id}&city=${city?.id}&search=$filters'//, queryParameters: filters
     )
         .then((value) {
       advertsJson= AdvertsJson.fromJson(value.data);
@@ -457,8 +515,27 @@ setState(() {
 
 
   }
+
+  Future< List<RefJson>>  getRegions( )async{
+
+    List<RefJson> regions = [];
+    await  dioSingleton.dio.get('https://lecoinoccasion.fr/api/v1/simple/regions').then((value) {
+      print(value.data);
+      regions   = RefListJson.fromJson(value.data).data!;
+      this.regions=regions;
+    });
+    setState(() {
+
+    });
+    return regions;
+
+
+  }
 }
 
+
+
+//"https://lecoinoccasion.fr/api/v1/simple/regions"
 
 
 

@@ -147,7 +147,7 @@ class Adverts {
     categoryGroup = json['categoryGroup'] != null
         ? new CategoryGroup.fromJson(json['categoryGroup'])
         : null;
-    photo ="https://lecoinoccasion.fr" + "/" + json['photo'];
+    photo ="https://lecoinoccasion.fr/" + json['photo'];
     description = json['description'];
     title = json['title'];
     price = json['price'];
