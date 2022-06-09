@@ -144,7 +144,7 @@ Map<int,dynamic>de={};
 
                                     print(widget.adverts?.eEmbedded?.adverts?[pos].toJson());
                                     Map<String, dynamic>?data=widget.adverts?.eEmbedded?.adverts?[pos].toJson();
-print( ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id));
+                                  print( ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id));
                                     print(  widget.adverts?.eEmbedded?.adverts?[pos].id);
                                     if(   ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id)){
                                     //  ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
@@ -153,6 +153,10 @@ print( ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id));
 // print(doc);
                              FirebaseFirestore.instance.collection('fav').doc(de[widget.adverts?.eEmbedded?.adverts?[pos].id]).delete();
                                       print("i delete data");
+                             ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
+                             setState(() {
+
+                             });
                                       getD();
                                     }else{
                                       FirebaseFirestore.instance.collection('fav').add( {"id":widget.adverts?.eEmbedded?.adverts?[pos].id}).then((value) {
@@ -227,7 +231,9 @@ print( ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id));
         }
 
       }
-
+      de.forEach((key, value) {
+        print("$key      =>         $value");
+      });
       setState(() {
 
       });
