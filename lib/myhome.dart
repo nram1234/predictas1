@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:predictas1/settings/setting.dart';
 
@@ -13,6 +15,15 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+
+List<int>ids=[];
+
+List querySnapshot=[];
+Map<int,dynamic>de={};
+
+
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -72,11 +83,11 @@ class _MyHomeState extends State<MyHome> {
                                 widget.adverts?.eEmbedded?.adverts?[pos].title??"",
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 13),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
@@ -84,7 +95,7 @@ class _MyHomeState extends State<MyHome> {
                               // numberFormat.format(adverts.price) +
                               //     ' ' +
                               //     SettingsApp.moneySymbol,
-                             , style: TextStyle(
+                             , style: const TextStyle(
                                   color: Colors.black,//framColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
@@ -123,12 +134,49 @@ class _MyHomeState extends State<MyHome> {
                                     // print("annonce ajouté");
                                     // isFavorite != isFavorite;
                                   },
-                                  child: Icon(
-                                  //  widget.adverts?.eEmbedded?.adverts?[pos].region.
-                                       // ?
-                                  Icons.favorite_outline_rounded
-                                       // : Icons.favorite,
-                                   , color: Colors.pink,
+                                  child: GestureDetector(onTap: (){
+                                  //  DatabaseReference ref = FirebaseDatabase.instance.ref("users/f");
+                                  //   final newPostKey =
+                                  //       FirebaseDatabase.instance.ref().child('posts').set("ooooooooooooooooooo").then((value) {
+                                  //         print("object");
+                                  //       });
+
+
+                                    print(widget.adverts?.eEmbedded?.adverts?[pos].toJson());
+                                    Map<String, dynamic>?data=widget.adverts?.eEmbedded?.adverts?[pos].toJson();
+print( ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id));
+                                    print(  widget.adverts?.eEmbedded?.adverts?[pos].id);
+                                    if(   ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id)){
+                                    //  ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
+
+//
+// print(doc);
+                             FirebaseFirestore.instance.collection('fav').doc(de[widget.adverts?.eEmbedded?.adverts?[pos].id]).delete();
+                                      print("i delete data");
+                                      getD();
+                                    }else{
+                                      FirebaseFirestore.instance.collection('fav').add( {"id":widget.adverts?.eEmbedded?.adverts?[pos].id}).then((value) {
+                                        print("i add data");
+                                        getD();
+                                      });
+                                    }
+
+
+                                 //   getD();
+
+                                        // .collection("cities")
+                                        // .doc("LA")
+                                        // .set(city)
+                                        // .onError((e, _) => print("Error writing document: $e"));
+
+                                  },
+                                    child: Icon(
+                                 //  widget.adverts?.eEmbedded?.adverts?[pos].region.
+
+
+
+                                        Icons.favorite, color:    ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id) ?Colors.pink:Colors.grey,
+                                    ),
                                   ),
                                 )
                               ],
@@ -154,6 +202,36 @@ class _MyHomeState extends State<MyHome> {
             // );
           }),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getD();
+  }
+
+
+  getD(){
+    FirebaseFirestore.instance.collection('fav').get().then((value) {
+      querySnapshot=value.docs;
+      widget.adverts?.eEmbedded?.adverts?.forEach((element) {
+        print(element.id);
+      });
+      print("*"*100);
+      for(int i=0;i<value.docs.length;i++){
+
+
+        if(value.docs[i].data()["id"]!=null){
+          de[value.docs[i].data()["id"]]=value.docs[i].id;
+          ids.add(value.docs[i].data()["id"]);
+        }
+
+      }
+
+      setState(() {
+
+      });
+    });
   }
 }
 
