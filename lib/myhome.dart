@@ -6,6 +6,7 @@ import 'package:predictas1/settings/setting.dart';
 
 import 'package:predictas1/networking/Advert_json.dart';
 
+import 'Login_Screen.dart';
 import 'Register_Screen.dart';
 
 class MyHome extends StatefulWidget {
@@ -145,7 +146,7 @@ Map<int,dynamic>de={};
                                     if(FirebaseAuth.instance.currentUser==null){
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => const RegistrationScreen()),
+                                        MaterialPageRoute(builder: (context) =>   const LoginScreen()),
                                       );
 
 
