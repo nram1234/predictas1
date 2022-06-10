@@ -149,6 +149,8 @@ Map<int,dynamic>de={};
                                     if(   ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id)){
                                     //  ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
 
+
+
 //
 // print(doc);
                              FirebaseFirestore.instance.collection('fav').doc(de[widget.adverts?.eEmbedded?.adverts?[pos].id]).delete();
