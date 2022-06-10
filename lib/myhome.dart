@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:predictas1/settings/setting.dart';
 
 import 'package:predictas1/networking/Advert_json.dart';
+
+import 'Register_Screen.dart';
 
 class MyHome extends StatefulWidget {
   AdvertsJson? adverts;
@@ -135,47 +138,73 @@ Map<int,dynamic>de={};
                                     // isFavorite != isFavorite;
                                   },
                                   child: GestureDetector(onTap: (){
-                                  //  DatabaseReference ref = FirebaseDatabase.instance.ref("users/f");
-                                  //   final newPostKey =
-                                  //       FirebaseDatabase.instance.ref().child('posts').set("ooooooooooooooooooo").then((value) {
-                                  //         print("object");
-                                  //       });
 
 
-                                    print(widget.adverts?.eEmbedded?.adverts?[pos].toJson());
-                                    Map<String, dynamic>?data=widget.adverts?.eEmbedded?.adverts?[pos].toJson();
-                                  print( ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id));
-                                    print(  widget.adverts?.eEmbedded?.adverts?[pos].id);
-                                    if(   ids.contains(widget.adverts?.eEmbedded?.adverts?[pos].id)){
-                                    //  ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
 
+
+                                    if(FirebaseAuth.instance.currentUser==null){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const RegistrationScreen()),
+                                      );
+
+
+
+                                    }else {
+                                      //  DatabaseReference ref = FirebaseDatabase.instance.ref("users/f");
+                                      //   final newPostKey =
+                                      //       FirebaseDatabase.instance.ref().child('posts').set("ooooooooooooooooooo").then((value) {
+                                      //         print("object");
+                                      //       });
+
+
+                                      print(widget.adverts?.eEmbedded
+                                          ?.adverts?[pos].toJson());
+                                      Map<String, dynamic>?data = widget.adverts
+                                          ?.eEmbedded?.adverts?[pos].toJson();
+                                      print(ids.contains(
+                                          widget.adverts?.eEmbedded
+                                              ?.adverts?[pos].id));
+                                      print(widget.adverts?.eEmbedded
+                                          ?.adverts?[pos].id);
+                                      if (ids.contains(widget.adverts?.eEmbedded
+                                          ?.adverts?[pos].id)) {
+                                        //  ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
 
 
 //
 // print(doc);
-                             FirebaseFirestore.instance.collection('fav').doc(de[widget.adverts?.eEmbedded?.adverts?[pos].id]).delete();
-                                      print("i delete data");
-                             ids.remove(widget.adverts?.eEmbedded?.adverts?[pos].id);
-                             setState(() {
+                                        FirebaseFirestore.instance.collection(
+                                            'fav').doc(
+                                            de[widget.adverts?.eEmbedded
+                                                ?.adverts?[pos].id]).delete();
+                                        print("i delete data");
+                                        ids.remove(widget.adverts?.eEmbedded
+                                            ?.adverts?[pos].id);
+                                        setState(() {
 
-                             });
-                                      getD();
-                                    }else{
-                                      FirebaseFirestore.instance.collection('fav').add( {"id":widget.adverts?.eEmbedded?.adverts?[pos].id}).then((value) {
-                                        print("i add data");
+                                        });
                                         getD();
-                                      });
-                                    }
+                                      } else {
+                                        FirebaseFirestore.instance.collection(
+                                            'fav').add({
+                                          "id": widget.adverts?.eEmbedded
+                                              ?.adverts?[pos].id
+                                        }).then((value) {
+                                          print("i add data");
+                                          getD();
+                                        });
+                                      }
 
 
-                                 //   getD();
+                                      //   getD();
 
-                                        // .collection("cities")
-                                        // .doc("LA")
-                                        // .set(city)
-                                        // .onError((e, _) => print("Error writing document: $e"));
+                                      // .collection("cities")
+                                      // .doc("LA")
+                                      // .set(city)
+                                      // .onError((e, _) => print("Error writing document: $e"));
 
-                                  },
+                                    }  },
                                     child: Icon(
                                  //  widget.adverts?.eEmbedded?.adverts?[pos].region.
 
