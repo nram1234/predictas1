@@ -46,7 +46,7 @@ dependencies:
   get_storage: ^2.0.3
   sklite: ^0.0.1
   csv: ^5.0.1
-  syncfusion_flutter_charts: ^20.1.59
+  syncfusion_flutter_charts: 19.4.50
 
   # Conditional builders
   conditional_builder_null_safety: ^0.0.6
@@ -79,6 +79,7 @@ flutter:
   assets:
 
     - assets/images/
+    - assets/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
