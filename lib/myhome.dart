@@ -257,7 +257,20 @@ class _MyHomeState extends State<MyHome> {
                                                       ?.eEmbedded
                                                       ?.adverts?[pos]
                                                       .id
+
+
                                                 }).then((value) {
+                                                  print("i add data");
+                                                  getD();
+                                                });
+                                                Map<String, dynamic> d=widget
+                                                    .adverts
+                                                    ?.eEmbedded
+                                                    ?.adverts?[pos].toJson() as Map<String, dynamic>;
+
+                                                FirebaseFirestore.instance
+                                                    .collection('adsFav')
+                                                    .add( d).then((value) {
                                                   print("i add data");
                                                   getD();
                                                 });
