@@ -126,19 +126,19 @@ Size size=MediaQuery.of(context).size;
                               Spacer(),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.location_on,
                                     color: Colors.grey,
                                     size: 18,
                                   ),
-                                  Container(
+                                  SizedBox(
                                     width: size.width * .28,
                                     child: Text(
 
 
                                       "${  data["town"] ["name"]?? ""}, ${data["city"] ["name"]?? ""}",
                                       softWrap: true,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.grey, fontSize: 12),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 4,
