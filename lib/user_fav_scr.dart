@@ -149,7 +149,14 @@ Size size=MediaQuery.of(context).size;
                               SizedBox(
                                 height: 4,
                               ),
+GestureDetector(onTap: (){
+  fave.doc(snapshot.data?.docs[pos].id).delete().then((value) {
+    setState(() {
 
+    });
+  });
+
+},child: Icon(Icons.delete))
                             ],
                           ),
                         ),
