@@ -11,6 +11,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'Login_Screen.dart';
 import 'Register_Screen.dart';
+import 'n/all_dro_stat.dart';
 
 class MyHome extends StatefulWidget {
   AdvertsJson? adverts;
@@ -57,10 +58,10 @@ class _MyHomeState extends State<MyHome> {
                       dataLabelSettings: DataLabelSettings(
                         isVisible: true,
                       )),
-                  // LineSeries<Price,double>(dataSource: price, xValueMapper: (Price p,_)=>p.year,
-                  //     yValueMapper: (Price p,_)=>p.oldPrice,color: Colors.blueAccent
-                  //
-                  // )
+                  LineSeries<Price,double>(dataSource: price, xValueMapper: (Price p,_)=>p.year,
+                      yValueMapper: (Price p,_)=>p.oldPrice,color: Colors.blueAccent
+
+                  )
                 ]
                 //,primaryXAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift)
                 ,
@@ -362,14 +363,25 @@ class _MyHomeState extends State<MyHome> {
     print(csvTable.length);
     print(csvTable.first); //csvTable.length
     for (int i = 1; i < csvTable.length; i++) {
-      print(csvTable[i][4]);
-      print(csvTable[i][3]);
-      print(csvTable[i][5]);
-      price.add(Price(
-          year: double.parse(csvTable[i][4].toString()),
-          newPrice: double.parse(csvTable[i][3].toString()),
-          oldPrice: double.parse(csvTable[i][5].toString())));
-      // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
+
+      if(csvTable[i][6].contains(AllDrob.region?.name??"")&&csvTable[i][4].contains(AllDrob.city
+          ?.name??"")&&csvTable[i][5].contains(AllDrob.town?.name??"")){
+        print("9999999999999999999999999");
+        String? a=AllDrob.region?.name;
+        print(csvTable.contains(AllDrob.region?.name));
+        print(csvTable);
+        print(csvTable.contains(a??""));
+        print(csvTable[i][4]);
+        print(csvTable[i][3]);
+        print(csvTable[i][5]);
+        price.add(Price(
+            year: double.parse(csvTable[i][7].toString()),
+            newPrice: double.parse(csvTable[i][8].toString()),
+            oldPrice: double.parse(csvTable[i][3].toString())));
+        // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
+
+   }
+
     }
   }
 }

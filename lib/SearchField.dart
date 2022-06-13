@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:predictas1/myhome.dart';
+import 'package:predictas1/n/all_dro_stat.dart';
 import 'package:searchfield/searchfield.dart';
 import 'Dashboard.dart';
 import 'Login_Screen.dart';
@@ -190,7 +191,7 @@ TextEditingController textEditingController=TextEditingController();
                           elevation: 16,
                           onChanged: (v){
                             city=v;
-
+                            AllDrob.city=v;
                             getTown(v?.id);
                             setState(() {
 
@@ -243,6 +244,7 @@ TextEditingController textEditingController=TextEditingController();
                           elevation: 16,
                           onChanged:   (v){
                             town=v;
+                            AllDrob.town=v;
                             setState(() {
 
                             });
@@ -290,7 +292,7 @@ TextEditingController textEditingController=TextEditingController();
                           elevation: 16,
                           onChanged: (v){
                             region=v;
-
+AllDrob.region=v;
                             getTown(v?.id);
                             setState(() {
 
