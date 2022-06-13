@@ -11,6 +11,8 @@ import 'package:predictas1/myhome.dart';
 import 'package:predictas1/screens/SplacheScreen.dart';
 import 'package:searchfield/searchfield.dart';
 
+import 'user_fav_scr.dart';
+
 
 
 void main()async {
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         //primarySwatch: Colors.blue,
       ),
-      home:SearchScreen (),
+      home: UserFavScr()//SearchScreen (),
     );
   }
 }
