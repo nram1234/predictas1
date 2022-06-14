@@ -363,26 +363,37 @@ class _MyHomeState extends State<MyHome> {
     print(csvTable.length);
     print(csvTable.first); //csvTable.length
     for (int i = 1; i < csvTable.length; i++) {
-
-      if(csvTable[i][6].contains(AllDrob.region?.name??"")&&csvTable[i][4].contains(AllDrob.city
+      print("8"*10);
+      print(csvTable[i][7].contains(AllDrob.region?.name??""));
+      print(csvTable[i][6].contains(AllDrob.city
+          ?.name??""));
+      print(csvTable[i][5].contains(AllDrob.town?.name??""));
+      print("8"*10);
+      if(csvTable[i][7].contains(AllDrob.region?.name??"")&&csvTable[i][6].contains(AllDrob.city
           ?.name??"")&&csvTable[i][5].contains(AllDrob.town?.name??"")){
         print("9999999999999999999999999");
         String? a=AllDrob.region?.name;
-        print(csvTable.contains(AllDrob.region?.name));
-        print(csvTable);
-        print(csvTable.contains(a??""));
-        print(csvTable[i][4]);
-        print(csvTable[i][3]);
+        // print(csvTable.contains(AllDrob.region?.name));
+        // print(csvTable);
+        // print(csvTable.contains(a??""));
+        print(csvTable[i][7]);
         print(csvTable[i][5]);
+        print(csvTable[i][6]);
+        print(csvTable[i][8]);
+        print(csvTable[i][9]);
+        print(csvTable[i][4]);
         price.add(Price(
-            year: double.parse(csvTable[i][7].toString()),
-            newPrice: double.parse(csvTable[i][8].toString()),
-            oldPrice: double.parse(csvTable[i][3].toString())));
+            year: double.parse(csvTable[i][8].toString()),
+            newPrice: double.parse(csvTable[i][9].toString()),
+            oldPrice: double.parse(csvTable[i][4].toString())));
         // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
 
-   }
+  }
 
     }
+    setState(() {
+
+    });
   }
 }
 
