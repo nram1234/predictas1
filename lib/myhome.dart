@@ -40,26 +40,26 @@ class _MyHomeState extends State<MyHome> {
           Container(
               height: 300,
               width: MediaQuery.of(context).size.width,
-              child: SfCartesianChart(
+              child: SfCartesianChart(enableAxisAnimation: true,
                 series: <ChartSeries>[
-                  LineSeries<Price, double>(
-                      dataSource: price,
-                      xValueMapper: (Price p, _) => p.year,
-                      yValueMapper: (Price p, _) => p.newPrice,
-                      color: Colors.greenAccent,
-                      enableTooltip: true,
-                      markerSettings: MarkerSettings(
-                          isVisible: true,
-                          height: 1,
-                          width: 1,
-                          shape: DataMarkerType.circle,
-                          borderWidth: 3,
-                          borderColor: Colors.black),
-                      dataLabelSettings: DataLabelSettings(
-                        isVisible: true,
-                      )),
-                  LineSeries<Price,double>(dataSource: price, xValueMapper: (Price p,_)=>p.year,
-                      yValueMapper: (Price p,_)=>p.oldPrice,color: Colors.blueAccent
+                  // LineSeries<Price, int>(xAxisName: "price",yAxisName: "year",
+                  //     dataSource: price,
+                  //     xValueMapper: (Price p, _) => p.year.toInt() ,
+                  //     yValueMapper: (Price p, _) => p.newPrice,
+                  //     color: Colors.greenAccent,
+                  //     enableTooltip: true,
+                  //     markerSettings: MarkerSettings(
+                  //         isVisible: true,
+                  //         height: 1,
+                  //         width: 1,
+                  //         shape: DataMarkerType.circle,
+                  //         borderWidth: 3,
+                  //         borderColor: Colors.black),
+                  //     dataLabelSettings: DataLabelSettings(
+                  //       isVisible: true,
+                  //     )),
+                  LineSeries<Price,int>(dataSource: price, xValueMapper: (Price p,_)=>p.year.toInt(),yAxisName: "year",xAxisName: "price",enableTooltip: true  ,
+                      yValueMapper: (Price p,_)=>p.newPrice,color: Colors.blueAccent
 
                   )
                 ]
@@ -382,12 +382,15 @@ class _MyHomeState extends State<MyHome> {
         print(csvTable[i][8]);
         print(csvTable[i][9]);
         print(csvTable[i][4]);
-        price.add(Price(
-            year: double.parse(csvTable[i][8].toString()),
-            newPrice: double.parse(csvTable[i][9].toString()),
-            oldPrice: double.parse(csvTable[i][4].toString())));
+        // price.add(Price(
+        //     year: double.parse(csvTable[i][8].toString()),
+        //     newPrice: double.parse(csvTable[i][9].toString()),
+        //     oldPrice: double.parse(csvTable[i][4].toString())));
         // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
-
+        price.add(Price(
+            year: i%20*100,
+            newPrice: i*2,
+            oldPrice: i.toDouble()));
   }
 
     }
