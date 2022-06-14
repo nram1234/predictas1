@@ -97,70 +97,70 @@ TextEditingController textEditingController=TextEditingController();
                             color: Colors.blueGrey
                         ),),
                       ),
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 30),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              blurRadius: 10,
-                              offset: Offset(0, 10),
-                            ),
-                          ],
-                        ),
-
-                        child: SearchField(controller: textEditingController,
-                          suggestions: _list.map((e) =>
-                              SearchFieldListItem(e)).toList(),
-                          hint: 'Rechercher',
-                          searchInputDecoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search,color: Colors.teal,),
-
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blueGrey.shade200,
-                                width: 5,
-                              ),
-
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.blue.withOpacity(0.8),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-
-                            ),
-                          ),
-                          maxSuggestionsInViewPort: 6,
-                          itemHeight: 50,
-                          suggestionsDecoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-
-                          onSubmit: (value) {
-
-
-
-
-
-                            setState(() {
-
-                              ///ToDo  make call api
-
-
-
-                              _selectedItem = value as String?;
-                            });
-                            print(value);
-                          },
-                        ),
-                      ),
+                      // Container(
+                      //   width: double.infinity,
+                      //   margin: EdgeInsets.symmetric(horizontal: 30),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //         color: Colors.grey.withOpacity(0.2),
+                      //         blurRadius: 10,
+                      //         offset: Offset(0, 10),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //
+                      //   child: SearchField(controller: textEditingController,
+                      //     suggestions: _list.map((e) =>
+                      //         SearchFieldListItem(e)).toList(),
+                      //     hint: 'Rechercher',
+                      //     searchInputDecoration: InputDecoration(
+                      //       prefixIcon: Icon(Icons.search,color: Colors.teal,),
+                      //
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(
+                      //           color: Colors.blueGrey.shade200,
+                      //           width: 5,
+                      //         ),
+                      //
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide: BorderSide(
+                      //           width: 2,
+                      //           color: Colors.blue.withOpacity(0.8),
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //
+                      //       ),
+                      //     ),
+                      //     maxSuggestionsInViewPort: 6,
+                      //     itemHeight: 50,
+                      //     suggestionsDecoration: BoxDecoration(
+                      //       color: Colors.white,
+                      //       borderRadius: BorderRadius.circular(10),
+                      //     ),
+                      //
+                      //     onSubmit: (value) {
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //       setState(() {
+                      //
+                      //         ///ToDo  make call api
+                      //
+                      //
+                      //
+                      //         _selectedItem = value as String?;
+                      //       });
+                      //       print(value);
+                      //     },
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 8,
                       ),
@@ -343,7 +343,17 @@ AllDrob.region=v;
                         print("iam going to get data");
                         // Add List favorite into home
                         // Add List favorite into home
-                        getList(filters: textEditingController.text);
+                        if(AllDrob.region!=null&&AllDrob.city!=null&&AllDrob.town!=null){
+                          getList(filters: textEditingController.text);
+                        }else{
+
+
+
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("  Message"),
+                          ));
+                        }
+
                         // fetchList().then((value){
                         //   print(value?.toJson());                          });
 

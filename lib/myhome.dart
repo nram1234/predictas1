@@ -382,15 +382,15 @@ class _MyHomeState extends State<MyHome> {
         print(csvTable[i][8]);
         print(csvTable[i][9]);
         print(csvTable[i][4]);
-        // price.add(Price(
-        //     year: double.parse(csvTable[i][8].toString()),
-        //     newPrice: double.parse(csvTable[i][9].toString()),
-        //     oldPrice: double.parse(csvTable[i][4].toString())));
-        // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
         price.add(Price(
-            year: i%20*100,
-            newPrice: i*2,
-            oldPrice: i.toDouble()));
+            year: double.parse(csvTable[i][8].toString()),
+            newPrice: double.parse(csvTable[i][9].toString()),
+            oldPrice: double.parse(csvTable[i][4].toString())));
+        // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
+        // price.add(Price(
+        //     year: i%20*100,
+        //     newPrice: i*2,
+        //     oldPrice: i.toDouble()));
   }
 
     }
