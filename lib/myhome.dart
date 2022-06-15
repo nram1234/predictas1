@@ -29,7 +29,7 @@ class _MyHomeState extends State<MyHome> {
   List querySnapshot = [];
   Map<int, dynamic> de = {};
   List<Price> price = [];
-
+  Map<int,List<Price>>dataToMap={};
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -58,22 +58,36 @@ class _MyHomeState extends State<MyHome> {
                   //     dataLabelSettings: DataLabelSettings(
                   //       isVisible: true,
                   //     )),
-                  LineSeries<Price,int>(dataSource: price, xValueMapper: (Price p,_)=>p.year.toInt(),yAxisName: "year",xAxisName: "price",enableTooltip: true  ,
-                      yValueMapper: (Price p,_)=>p.newPrice,color: Colors.blueAccent
+                  // LineSeries<Price,double>( dataLabelSettings:   DataLabelSettings(
+                  //      isVisible: true, showZeroValue: false ,),dataSource: price, yValueMapper: (Price p,_)=>p.price,yAxisName: "year",xAxisName: "price",enableTooltip: true  ,sortingOrder:SortingOrder.ascending ,
+                  //     xValueMapper: (Price p,_)=>p.year.toDouble(),color: Colors.blueAccent
+                  //
+                  // )
 
-                  )
-                ]
+
+               ...   dataToMap.entries.map((e) {
+
+                    return
+    LineSeries<Price,double>(dataLabelSettings:   DataLabelSettings(
+       //  isVisible: true,
+        showZeroValue: false , useSeriesColor: true),dataSource: e.value, yValueMapper: (Price p,_)=>p.year,yAxisName: "year",xAxisName: "price",//enableTooltip: true  ,sortingOrder:SortingOrder.ascending ,
+        xValueMapper: (Price p,_)=>p.price.toDouble(),color: Colors.blueAccent
+
+    );
+
+                  }).toList()]
                 //,primaryXAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift)
                 ,
-                primaryYAxis: NumericAxis(
+                primaryXAxis: NumericAxis(title: AxisTitle(text: "price"),
                     numberFormat:
-                        NumberFormat.simpleCurrency(decimalDigits: 0)),
+                        NumberFormat.simpleCurrency(decimalDigits: 0)), primaryYAxis: NumericAxis(title: AxisTitle(text: "year"),
+                    ),
                 isTransposed: true,
                 crosshairBehavior: CrosshairBehavior(enable: true),zoomPanBehavior:  ZoomPanBehavior(
                 // Enables pinch zooming
                   enablePinching: true, enableDoubleTapZooming: true,enablePanning: true,zoomMode: ZoomMode.xy,enableSelectionZooming: true
               ),
-              )),
+        title:ChartTitle(text: "00000000000000")     ,   )),
           Expanded(
             child: ListView.builder(
                 itemCount: widget.adverts?.eEmbedded?.adverts?.length,
@@ -363,12 +377,28 @@ class _MyHomeState extends State<MyHome> {
     print(csvTable.length);
     print(csvTable.first); //csvTable.length
     for (int i = 1; i < csvTable.length; i++) {
-      print("8"*10);
-      print(csvTable[i][7].contains(AllDrob.region?.name??""));
-      print(csvTable[i][6].contains(AllDrob.city
-          ?.name??""));
-      print(csvTable[i][5].contains(AllDrob.town?.name??""));
-      print("8"*10);
+
+      dataToMap[csvTable[i][2]]=[];
+        print(csvTable[i][2]);
+
+      }
+
+   for (int i = 1; i < csvTable.length; i++) {
+if(dataToMap[csvTable[i][2]]!=null){
+  print("--------------------------------------------------");
+  dataToMap[csvTable[i][2]]!.add(Price(
+    year: csvTable[i][8],
+    price:   double.parse(csvTable[i][4].toString(),
+    //  oldPrice: double.parse(csvTable[i][4].toString())
+  )));
+}
+
+      // print("8"*10);
+      // print(csvTable[i][7].contains(AllDrob.region?.name??""));
+      // print(csvTable[i][6].contains(AllDrob.city
+      //     ?.name??""));
+      // print(csvTable[i][5].contains(AllDrob.town?.name??""));
+      // print("8"*10);
       if(csvTable[i][7].contains(AllDrob.region?.name??"")&&csvTable[i][6].contains(AllDrob.city
           ?.name??"")&&csvTable[i][5].contains(AllDrob.town?.name??"")){
         print("9999999999999999999999999");
@@ -376,29 +406,51 @@ class _MyHomeState extends State<MyHome> {
         // print(csvTable.contains(AllDrob.region?.name));
         // print(csvTable);
         // print(csvTable.contains(a??""));
-        print(csvTable[i][7]);
-        print(csvTable[i][5]);
-        print(csvTable[i][6]);
-        print(csvTable[i][8]);
-        print(csvTable[i][9]);
-        print(csvTable[i][4]);
+        // print(csvTable[i][7]);
+        // print(csvTable[i][5]);
+        // print(csvTable[i][6]);
+        // print(csvTable[i][8]);
+        // print(csvTable[i][9]);
+        // print(csvTable[i][4]);
+        // price.add(Price(
+        //     year: double.parse(csvTable[i][8].toString()),
+        //     price: double.parse(csvTable[i][9].toString()),
+        //   //  oldPrice: double.parse(csvTable[i][4].toString())
+        //   )
+        //
+        // );
         price.add(Price(
-            year: double.parse(csvTable[i][8].toString()),
-            newPrice: double.parse(csvTable[i][9].toString()),
-            oldPrice: double.parse(csvTable[i][4].toString())));
+          year: csvTable[i][8],
+          price: double.parse(csvTable[i][4].toString()),
+          //  oldPrice: double.parse(csvTable[i][4].toString())
+        )
+
+        );
+        price.add(Price(
+          year: csvTable[i][8],
+          price: double.parse(csvTable[i][9].toString()),
+          //  oldPrice: double.parse(csvTable[i][4].toString())
+        )
+
+        );
+
         // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
         // price.add(Price(
         //     year: i%20*100,
         //     newPrice: i*2,
         //     oldPrice: i.toDouble()));
+
   }
 
     }
+
     setState(() {
 
     });
   }
 }
+
+
 
 //
 //
@@ -521,9 +573,9 @@ class _MyHomeState extends State<MyHome> {
 //);
 
 class Price {
-  double year;
-  double newPrice;
-  double oldPrice;
+  int year;
+  double price;
+ // double oldPrice;
 
-  Price({required this.year, required this.newPrice, required this.oldPrice});
+  Price({required this.year, required this.price});
 }

@@ -293,7 +293,7 @@ TextEditingController textEditingController=TextEditingController();
                           onChanged: (v){
                             region=v;
 AllDrob.region=v;
-                            getTown(v?.id);
+                        //    getTown(v?.id);
                             setState(() {
 
                             });
@@ -343,8 +343,12 @@ AllDrob.region=v;
                         print("iam going to get data");
                         // Add List favorite into home
                         // Add List favorite into home
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>MyHome (advertsJson)),
+                        );
                         if(AllDrob.region!=null&&AllDrob.city!=null&&AllDrob.town!=null){
-                          getList(filters: textEditingController.text);
+                          getList(filters: textEditingController.text??"");
                         }else{
 
 
@@ -402,10 +406,11 @@ AllDrob.region=v;
 
   final DioSingleton dioSingleton = DioSingleton();
   Future<dynamic> getList({  filters}) async {
+
 var data;
 
     await dioSingleton.dio
-        .get('https://lecoinoccasion.fr/api/v1/adverts?categoryGroup=6&town=${town?.id}&regions=${region?.id}&city=${city?.id}&search=$filters'//, queryParameters: filters
+        .get('https://lecoinoccasion.fr/api/v1/adverts?categoryGroup=6&town=${town?.id}&regions=${region?.id}&city=${city?.id}&search=$filters??'//, queryParameters: filters
     )
         .then((value) {
       advertsJson= AdvertsJson.fromJson(value.data);
