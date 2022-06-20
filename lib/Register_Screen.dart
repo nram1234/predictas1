@@ -101,7 +101,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         controller: telephoneEditingController,
         keyboardType: TextInputType.phone,
         validator: (value) {
-          if (value!.isEmpty) {
+          if (value!.isEmpty||value.length<8) {
             return ("Le champ ne doit pas être vide");
           }
           return null;

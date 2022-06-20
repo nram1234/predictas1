@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:predictas1/myhome.dart';
 import 'package:predictas1/n/all_dro_stat.dart';
+import 'package:predictas1/user_fav_scr.dart';
 import 'package:searchfield/searchfield.dart';
 import 'Dashboard.dart';
 import 'Login_Screen.dart';
+import 'Profil.dart';
 import 'Settings/httpadvert.dart';
 import 'api/ref_json.dart';
 import 'n/dio_singleton.dart';
@@ -18,7 +21,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreen extends State<SearchScreen> {
   String? _selectedItem;
-TextEditingController textEditingController=TextEditingController();
+  TextEditingController textEditingController=TextEditingController();
 
 
   List<RefJson>? cities = [];
@@ -46,25 +49,60 @@ TextEditingController textEditingController=TextEditingController();
             color: Colors.white,
           ),),
           actions: [
-            IconButton(icon: Icon(Icons.account_box, color: Colors.white),
-                onPressed: () async {
+            IconButton(icon: Icon(Icons.favorite_border, color: Colors.white),
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
-                  );
+
+                onPressed: () async {
+                  if (FirebaseAuth
+                      .instance.currentUser !=
+                      null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>UserFavScr()),
+                    );
+                  }else{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>LoginScreen()),
+                    );
+                  }
+
+                }
+            )
+            , IconButton(icon: Icon(Icons.account_box, color: Colors.white),
+
+
+                onPressed: () async {
+                  if (FirebaseAuth
+                      .instance.currentUser !=
+                      null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>ProfileScreen()),
+                    );
+                  }else{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>LoginScreen()),
+                    );
+                  }
+
+
                 }
             )
           ]
+
       ),
+
+
 
       body:
       Container(
         decoration: BoxDecoration(
-        image: DecorationImage(
-       image: AssetImage("assets/images/maison.png"),
-    fit: BoxFit.cover,
-        ),
+          image: DecorationImage(
+            image: AssetImage("assets/images/prediction.jpg"),
+            fit: BoxFit.cover,
+          ),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -73,10 +111,11 @@ TextEditingController textEditingController=TextEditingController();
             children: [
               Center(
                   child: Padding(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(30.0),
                     child: Text(
-                      'Commencer à chercher votre futur bien', style: TextStyle(
-                        fontSize: 16,
+                      'Chercher votre futur bien', style: TextStyle(
+                        fontSize: 25
+                        ,
                         color: Colors.blueGrey
                     ),),
                   )),
@@ -184,7 +223,7 @@ TextEditingController textEditingController=TextEditingController();
                           isExpanded: true,
                           hint: Padding(
                             padding: const EdgeInsets.only(left: 8.0, right: 8),
-                            child: Text("Gouvernorat"),
+                            child: Text("Departement"),
                           ),
                           value: city,
                           iconSize: 24,
@@ -192,6 +231,7 @@ TextEditingController textEditingController=TextEditingController();
                           onChanged: (v){
                             city=v;
                             AllDrob.city=v;
+                            print(v?.name);
                             getTown(v?.id);
                             setState(() {
 
@@ -237,7 +277,7 @@ TextEditingController textEditingController=TextEditingController();
                           isExpanded: true,
                           hint: Padding(
                             padding: const EdgeInsets.only(left: 8.0, right: 8),
-                            child: Text("Ville"),
+                            child: Text("Commune"),
                           ),
                           value: town,
                           iconSize: 24,
@@ -245,6 +285,7 @@ TextEditingController textEditingController=TextEditingController();
                           onChanged:   (v){
                             town=v;
                             AllDrob.town=v;
+                            print(v?.name);
                             setState(() {
 
                             });
@@ -292,8 +333,11 @@ TextEditingController textEditingController=TextEditingController();
                           elevation: 16,
                           onChanged: (v){
                             region=v;
-AllDrob.region=v;
-                        //    getTown(v?.id);
+
+
+                            //   getTown(v?.id);
+                            AllDrob.region=v;
+                            print(v?.name);
                             setState(() {
 
                             });
@@ -330,7 +374,7 @@ AllDrob.region=v;
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _selectedItem == null ? Text(
-                      'Entrer une adresse pour continuer', style: TextStyle(
+                      ' Continuer', style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey
                     ),) : Text(_selectedItem!, style: TextStyle(
@@ -343,18 +387,14 @@ AllDrob.region=v;
                         print("iam going to get data");
                         // Add List favorite into home
                         // Add List favorite into home
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>MyHome (advertsJson)),
-                        );
-                        if(AllDrob.region!=null&&AllDrob.city!=null&&AllDrob.town!=null){
-                          getList(filters: textEditingController.text??"");
+                        if(AllDrob.region!=null||AllDrob.city!=null||AllDrob.town!=null){
+                          getList(filters: textEditingController?.text??"");
                         }else{
 
 
 
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("  Message"),
+                            content: Text("champs vide"),
                           ));
                         }
 
@@ -386,7 +426,7 @@ AllDrob.region=v;
   void initState() {
     super.initState();
     getRegions();
-  getCity();
+    getCity();
   }
 
   /*   searchCity(String query) {
@@ -406,14 +446,14 @@ AllDrob.region=v;
 
   final DioSingleton dioSingleton = DioSingleton();
   Future<dynamic> getList({  filters}) async {
+    var data;
 
-var data;
-
-    await dioSingleton.dio
-        .get('https://lecoinoccasion.fr/api/v1/adverts?categoryGroup=6&town=${town?.id}&regions=${region?.id}&city=${city?.id}&search=$filters??'//, queryParameters: filters
+    await dioSingleton.dio//&town=${town?.id}&regions=${region?.id}&city=${city?.id}&search=$filters
+        .get('https://lecoinoccasion.fr/api/v1/adverts?categoryGroup=6&city=${city?.id??""}&town=${town?.id??""}}'//, queryParameters: filters
     )
         .then((value) {
       advertsJson= AdvertsJson.fromJson(value.data);
+      print(advertsJson?.toJson());
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) =>MyHome (advertsJson)),
@@ -502,33 +542,33 @@ var data;
   Future< List<RefJson>> getCity()async{
 
     List<RefJson> cities = [];
- await   dioSingleton.dio.get('https://lecoinoccasion.fr/api/v1/simple/cities').then((value) {
+    await   dioSingleton.dio.get('https://lecoinoccasion.fr/api/v1/simple/cities').then((value) {
 
 
-  cities =
+      cities =
       RefListJson.fromJson(value.data).data!;
 
     });
- this.cities=cities;
- setState(() {
+    this.cities=cities;
+    setState(() {
 
- });
-  return cities;
+    });
+    return cities;
 
   }
 
   Future< List<RefJson>>  getTown(id)async{
     town=null;
     List<RefJson> towns = [];
-  await  dioSingleton.dio.get('https://lecoinoccasion.fr/api/v1/simple/towns/$id').then((value) {
+    await  dioSingleton.dio.get('https://lecoinoccasion.fr/api/v1/simple/towns/$id').then((value) {
       print(value.data);
       towns   = RefListJson.fromJson(value.data).data!;
-this.towns=towns;
+      this.towns=towns;
     });
-setState(() {
+    setState(() {
 
-});
-  return towns;
+    });
+    return towns;
 
 
   }
@@ -549,7 +589,6 @@ setState(() {
 
   }
 }
-
 
 
 //"https://lecoinoccasion.fr/api/v1/simple/regions"

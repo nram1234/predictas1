@@ -4,12 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:predictas1/settings/setting.dart';
 import 'package:intl/intl.dart';
 import 'package:predictas1/networking/Advert_json.dart';
+import 'package:predictas1/user_fav_scr.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'Login_Screen.dart';
+import 'Profil.dart';
 import 'Register_Screen.dart';
 import 'n/all_dro_stat.dart';
 
@@ -29,65 +32,145 @@ class _MyHomeState extends State<MyHome> {
   List querySnapshot = [];
   Map<int, dynamic> de = {};
   List<Price> price = [];
-  Map<int,List<Price>>dataToMap={};
+  Map<String,List<Price>>dataToMap={};
+
+  List<Price> price2 = [];
+  Map<String,List<Price>>dataToMap2={};
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+          backgroundColor: Colors.teal,
+          actions: [
+            IconButton(icon: Icon(Icons.favorite_border, color: Colors.white),
+
+
+                onPressed: () async {
+                  if (FirebaseAuth
+                      .instance.currentUser !=
+                      null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>UserFavScr()),
+                    );
+                  }else{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>LoginScreen()),
+                    );
+                  }
+
+                }
+            )
+            , IconButton(icon: Icon(Icons.account_box, color: Colors.white),
+
+
+                onPressed: () async {
+                  if (FirebaseAuth
+                      .instance.currentUser !=
+                      null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>ProfileScreen()),
+                    );
+                  }else{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>LoginScreen()),
+                    );
+                  }
+
+                }
+            )
+          ]
+
+
+      ),
+
       body: Column(
         children: [
           Container(
               height: 300,
               width: MediaQuery.of(context).size.width,
-              child: SfCartesianChart(enableAxisAnimation: true,
-                series: <ChartSeries>[
-                  // LineSeries<Price, int>(xAxisName: "price",yAxisName: "year",
-                  //     dataSource: price,
-                  //     xValueMapper: (Price p, _) => p.year.toInt() ,
-                  //     yValueMapper: (Price p, _) => p.newPrice,
-                  //     color: Colors.greenAccent,
-                  //     enableTooltip: true,
-                  //     markerSettings: MarkerSettings(
-                  //         isVisible: true,
-                  //         height: 1,
-                  //         width: 1,
-                  //         shape: DataMarkerType.circle,
-                  //         borderWidth: 3,
-                  //         borderColor: Colors.black),
-                  //     dataLabelSettings: DataLabelSettings(
-                  //       isVisible: true,
-                  //     )),
-                  // LineSeries<Price,double>( dataLabelSettings:   DataLabelSettings(
-                  //      isVisible: true, showZeroValue: false ,),dataSource: price, yValueMapper: (Price p,_)=>p.price,yAxisName: "year",xAxisName: "price",enableTooltip: true  ,sortingOrder:SortingOrder.ascending ,
-                  //     xValueMapper: (Price p,_)=>p.year.toDouble(),color: Colors.blueAccent
-                  //
-                  // )
+              child: SfCartesianChart(
+                  series: <ChartSeries>[
+                    // LineSeries<Price, int>(
+                    //     dataSource: price,
+                    //     xValueMapper: (Price p, _) => p.year,
+                    //     yValueMapper: (Price p, _) => p.p,
+                    //     color: Colors.greenAccent,
+                    //     enableTooltip: true,
+                    //     markerSettings: MarkerSettings(
+                    //        // isVisible: true,
+                    //         height: 1,
+                    //         width: 1,
+                    //         shape: DataMarkerType.circle,
+                    //         borderWidth: 3,
+                    //         borderColor: Colors.black),
+                    //     dataLabelSettings: DataLabelSettings(
+                    //    //   isVisible: true,
+                    //     )),
 
 
-               ...   dataToMap.entries.map((e) {
+                    LineSeries<Price, double>(sortingOrder: SortingOrder.ascending,
+                        dataSource: price,
+                        yValueMapper: (Price p, _) => p.year,
+                        xValueMapper: (Price p, _) => p.p,
+                        color: Colors.blueAccent,
+                        //    enableTooltip: true,
+                        markerSettings: MarkerSettings(
+                          //    isVisible: true,
+                            height: 1,
+                            width: 1,
+                            // shape: DataMarkerType.circle,
+                            //  borderWidth: 3,
+                            borderColor: Colors.black),
+                        dataLabelSettings: DataLabelSettings(
+                          //       isVisible: true,
+                        )),
 
-                    return
-    LineSeries<Price,double>(dataLabelSettings:   DataLabelSettings(
-       //  isVisible: true,
-        showZeroValue: false , useSeriesColor: true),dataSource: e.value, yValueMapper: (Price p,_)=>p.year,yAxisName: "year",xAxisName: "price",//enableTooltip: true  ,sortingOrder:SortingOrder.ascending ,
-        xValueMapper: (Price p,_)=>p.price.toDouble(),color: Colors.blueAccent
 
-    );
+                    LineSeries<Price, double>(sortingOrder: SortingOrder.ascending,
+                        dataSource: price2,
+                        yValueMapper: (Price p, _) => p.year,
+                        xValueMapper: (Price p, _) => p.p,
+                        color: Colors.tealAccent,
+                        //    enableTooltip: true,
+                        markerSettings: MarkerSettings(
+                          //    isVisible: true,
+                            height: 1,
+                            width: 1,
+                            // shape: DataMarkerType.circle,
+                            //  borderWidth: 3,
+                            borderColor: Colors.black),
+                        dataLabelSettings: DataLabelSettings(
+                          //       isVisible: true,
+                        )),
 
-                  }).toList()]
-                //,primaryXAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift)
-                ,
-                primaryXAxis: NumericAxis(title: AxisTitle(text: "price"),
-                    numberFormat:
-                        NumberFormat.simpleCurrency(decimalDigits: 0)), primaryYAxis: NumericAxis(title: AxisTitle(text: "year"),
-                    ),
-                isTransposed: true,
-                crosshairBehavior: CrosshairBehavior(enable: true),zoomPanBehavior:  ZoomPanBehavior(
+                  ]
+                  //,primaryXAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift)
+                  ,
+
+                  isTransposed: true,
+                  crosshairBehavior: CrosshairBehavior(enable: true),zoomPanBehavior:  ZoomPanBehavior(
                 // Enables pinch zooming
                   enablePinching: true, enableDoubleTapZooming: true,enablePanning: true,zoomMode: ZoomMode.xy,enableSelectionZooming: true
-              ),
-        title:ChartTitle(text: "00000000000000")     ,   )),
+              ),primaryXAxis: NumericAxis(title: AxisTitle(text: "price"),
+                  numberFormat:
+                  NumberFormat.simpleCurrency(decimalDigits: 0)), primaryYAxis:  NumericAxis( interval: 1,minimum: 2018,maximum: 2025,
+                  title: AxisTitle(text: "year")),
+                  title:ChartTitle(text: "Prediction de prixm2 au futur en france")
+              )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(child: Column(children: [
+              Row(children: [Text("prixm2 au futur "),SizedBox(width: 8,),Container(height: 5,width: 20,color: Colors.blueAccent,)],),
+              Row(children: [Text("prixm2 au passer"),SizedBox(width: 8,),Container(height: 5,width: 20,color: Colors.greenAccent,)],),
+            ],)),
+          ),
           Expanded(
             child: ListView.builder(
                 itemCount: widget.adverts?.eEmbedded?.adverts?.length,
@@ -123,14 +206,14 @@ class _MyHomeState extends State<MyHome> {
                             child: Container(
                               height: size.height * .2,
                               child: widget.adverts?.eEmbedded?.adverts?[pos]
-                                          .photo !=
-                                      null
+                                  .photo !=
+                                  null
                                   ? Image.network(
-                                      widget.adverts?.eEmbedded?.adverts?[pos]
-                                              .photo ??
-                                          "",
-                                      fit: BoxFit.fill,
-                                    )
+                                widget.adverts?.eEmbedded?.adverts?[pos]
+                                    .photo ??
+                                    "",
+                                fit: BoxFit.fill,
+                              )
                                   : Image.asset("assets/images/no-image.jpeg"),
                             ),
                           ),
@@ -145,7 +228,7 @@ class _MyHomeState extends State<MyHome> {
                                   Container(
                                     child: Text(
                                       widget.adverts?.eEmbedded?.adverts?[pos]
-                                              .title ??
+                                          .title ??
                                           "",
                                       maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
@@ -159,8 +242,8 @@ class _MyHomeState extends State<MyHome> {
                                   ),
                                   Text(
                                     widget.adverts?.eEmbedded?.adverts?[pos]
-                                            .price
-                                            .toString() ??
+                                        .price
+                                        .toString() ??
                                         ""
                                     // numberFormat.format(adverts.price) +
                                     //     ' ' +
@@ -199,7 +282,7 @@ class _MyHomeState extends State<MyHome> {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
                                       InkWell(
                                         onTap: () {
@@ -209,13 +292,13 @@ class _MyHomeState extends State<MyHome> {
                                         child: GestureDetector(
                                           onTap: () {
                                             if (FirebaseAuth
-                                                    .instance.currentUser ==
+                                                .instance.currentUser ==
                                                 null) {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const LoginScreen()),
+                                                    const LoginScreen()),
                                               );
                                             } else {
                                               //  DatabaseReference ref = FirebaseDatabase.instance.ref("users/f");
@@ -228,9 +311,9 @@ class _MyHomeState extends State<MyHome> {
                                                   ?.adverts?[pos]
                                                   .toJson());
                                               Map<String, dynamic>? data =
-                                                  widget.adverts?.eEmbedded
-                                                      ?.adverts?[pos]
-                                                      .toJson();
+                                              widget.adverts?.eEmbedded
+                                                  ?.adverts?[pos]
+                                                  .toJson();
                                               print(ids.contains(widget
                                                   .adverts
                                                   ?.eEmbedded
@@ -250,10 +333,10 @@ class _MyHomeState extends State<MyHome> {
                                                 FirebaseFirestore.instance
                                                     .collection('fav')
                                                     .doc(de[widget
-                                                        .adverts
-                                                        ?.eEmbedded
-                                                        ?.adverts?[pos]
-                                                        .id])
+                                                    .adverts
+                                                    ?.eEmbedded
+                                                    ?.adverts?[pos]
+                                                    .id])
                                                     .delete();
                                                 print("i delete data");
                                                 ids.remove(widget
@@ -299,16 +382,18 @@ class _MyHomeState extends State<MyHome> {
                                               // .onError((e, _) => print("Error writing document: $e"));
 
                                             }
+                                            Fluttertoast.showToast(msg: "Favoris ajouter avec succès ");
                                           },
+
                                           child: Icon(
                                             //  widget.adverts?.eEmbedded?.adverts?[pos].region.
 
                                             Icons.favorite,
                                             color: ids.contains(widget
-                                                    .adverts
-                                                    ?.eEmbedded
-                                                    ?.adverts?[pos]
-                                                    .id)
+                                                .adverts
+                                                ?.eEmbedded
+                                                ?.adverts?[pos]
+                                                .id)
                                                 ? Colors.pink
                                                 : Colors.grey,
                                           ),
@@ -346,6 +431,7 @@ class _MyHomeState extends State<MyHome> {
   void initState() {
     super.initState();
     loadAsset();
+    loadAsset2();
     getD();
   }
 
@@ -370,212 +456,178 @@ class _MyHomeState extends State<MyHome> {
   }
 
   loadAsset() async {
-    final csvData = await rootBundle.loadString("assets/pricePredicted.csv");
+    final csvData = await rootBundle.loadString("assets/PredictPrice.csv");
     csvTable = const CsvToListConverter().convert(csvData);
-// print(csvTable);
+    print("csvTable.length    => ${csvTable.length}");
 //     print(csvData);
     print(csvTable.length);
     print(csvTable.first); //csvTable.length
+
+
+
+
+
+
+
+
+
+
+
+
+
     for (int i = 1; i < csvTable.length; i++) {
 
-      dataToMap[csvTable[i][2]]=[];
-        print(csvTable[i][2]);
+      dataToMap[csvTable[i][5]]=[];
 
-      }
-
-   for (int i = 1; i < csvTable.length; i++) {
-if(dataToMap[csvTable[i][2]]!=null){
-  print("--------------------------------------------------");
-  dataToMap[csvTable[i][2]]!.add(Price(
-    year: csvTable[i][8],
-    price:   double.parse(csvTable[i][4].toString(),
-    //  oldPrice: double.parse(csvTable[i][4].toString())
-  )));
-}
-
-      // print("8"*10);
-      // print(csvTable[i][7].contains(AllDrob.region?.name??""));
-      // print(csvTable[i][6].contains(AllDrob.city
-      //     ?.name??""));
-      // print(csvTable[i][5].contains(AllDrob.town?.name??""));
-      // print("8"*10);
-      if(csvTable[i][7].contains(AllDrob.region?.name??"")&&csvTable[i][6].contains(AllDrob.city
-          ?.name??"")&&csvTable[i][5].contains(AllDrob.town?.name??"")){
-        print("9999999999999999999999999");
-        String? a=AllDrob.region?.name;
-        // print(csvTable.contains(AllDrob.region?.name));
-        // print(csvTable);
-        // print(csvTable.contains(a??""));
-        // print(csvTable[i][7]);
-        // print(csvTable[i][5]);
-        // print(csvTable[i][6]);
-        // print(csvTable[i][8]);
-        // print(csvTable[i][9]);
-        // print(csvTable[i][4]);
-        // price.add(Price(
-        //     year: double.parse(csvTable[i][8].toString()),
-        //     price: double.parse(csvTable[i][9].toString()),
-        //   //  oldPrice: double.parse(csvTable[i][4].toString())
-        //   )
-        //
-        // );
-        price.add(Price(
-          year: csvTable[i][8],
-          price: double.parse(csvTable[i][4].toString()),
-          //  oldPrice: double.parse(csvTable[i][4].toString())
-        )
-
-        );
-        price.add(Price(
-          year: csvTable[i][8],
-          price: double.parse(csvTable[i][9].toString()),
-          //  oldPrice: double.parse(csvTable[i][4].toString())
-        )
-
-        );
-
-        // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
-        // price.add(Price(
-        //     year: i%20*100,
-        //     newPrice: i*2,
-        //     oldPrice: i.toDouble()));
-
-  }
 
     }
 
-    setState(() {
 
+
+    for (int i = 1; i < csvTable.length; i++) {
+      // print("*"*100);
+      // print("csvTable[i][6]  =>${csvTable[i][6]}");
+      // print("csvTable[i][4]   =>${csvTable[i][5]}");
+      // print("csvTable[i][5]   => ${csvTable[i][7]}");
+      //
+      //
+      // print("9999999999999999999999999");
+      // print(AllDrob.city?.name);
+      // print(AllDrob.town?.name);
+      // print(AllDrob.region?.name);
+      // print("*"*100);
+
+
+      if(dataToMap[csvTable[i][5]]!=null){
+        print(   dataToMap[csvTable[i][5]]!.length>0);
+        print(   dataToMap[csvTable[i][5]]!.length>0);
+        dataToMap[csvTable[i][5]]!.add(Price(
+          year: csvTable[i][7],
+          p: double.parse(csvTable[i][8].toString()),
+        ));
+      }
+
+      if(csvTable[i][7].toString().toLowerCase().contains(AllDrob.region?.name?.toLowerCase()??"")&&csvTable[i][6].toString().toLowerCase().contains(AllDrob.city
+          ?.name?.toLowerCase()??"")&&csvTable[i][5].toString().toLowerCase().contains(AllDrob.town?.name?.toLowerCase()??"")){
+
+        String? a=AllDrob.region?.name;
+        print(csvTable.contains(AllDrob.region?.name));
+        print(csvTable);
+        print(csvTable.contains(a??""));
+        print(csvTable[i][4]);
+        print(csvTable[i][3]);
+        print(csvTable[i][5]);
+        price.add(Price(
+          year: csvTable[i][7],
+          p: double.parse(csvTable[i][8].toString()),
+        ));
+        // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
+
+      }
+
+    }
+
+    price=dataToMap[AllDrob.city?.name]??[];
+    Map<int,Price>a={ };
+    price.forEach((element) {
+      a[element.year]=element;
+    });
+    price=   a.entries.map((e) => e.value).toList();
+
+    print("dataToMap  =>${dataToMap.length}");
+    print("city?.name  =>${AllDrob.city?.name}");
+    print("price.length  =>${price.length}");
+    price. forEach((element) {
+      print(element.year);
+      print(element.p);
+    });
+  }
+  loadAsset2() async {
+    final csvData = await rootBundle.loadString("assets/OldPrice.csv");
+    csvTable = const CsvToListConverter().convert(csvData);
+    print("csvTable.length    => ${csvTable.length}");
+//     print(csvData);
+    print(csvTable.length);
+    print(csvTable.first); //csvTable.length
+
+
+
+
+
+
+
+
+
+
+
+
+
+    for (int i = 1; i < csvTable.length; i++) {
+
+      dataToMap2[csvTable[i][6]]=[];
+
+
+    }
+
+
+//جلب الملف المحمل باحتمال الاسعار في المستقبل
+    for (int i = 1; i < csvTable.length; i++) {
+      // print("*"*100);
+      // print("csvTable[i][6]  =>${csvTable[i][6]}");
+      // print("csvTable[i][4]   =>${csvTable[i][5]}");
+      // print("csvTable[i][5]   => ${csvTable[i][7]}");
+      //
+      //
+      // print("9999999999999999999999999");
+      // print(AllDrob.city?.name);
+      // print(AllDrob.town?.name);
+      // print(AllDrob.region?.name);
+      // print("*"*100);
+
+// تصفيحه النتايج حب المنطقه
+      if(dataToMap2[csvTable[i][6]]!=null){
+
+        dataToMap2[csvTable[i][6]]!.add(Price(
+          year: csvTable[i][8],
+          p: double.parse(csvTable[i][4].toString()),
+        ));
+      }
+
+      if(csvTable[i][7].toString().toLowerCase().contains(AllDrob.region?.name?.toLowerCase()??"")&&csvTable[i][6].toString().toLowerCase().contains(AllDrob.city
+          ?.name?.toLowerCase()??"")&&csvTable[i][5].toString().toLowerCase().contains(AllDrob.town?.name?.toLowerCase()??"")){
+
+        String? a=AllDrob.region?.name;
+
+        price2.add(Price(
+          year: csvTable[i][8],
+          p: double.parse(csvTable[i][4].toString()),
+        ));
+        // price.add(Price(year: 100+i.toDouble(), newPrice: i*10, oldPrice: i*5));
+
+      }
+
+    }
+
+    price2=dataToMap2[AllDrob.city?.name]??[];
+    Map<int,Price>a={ };
+    price2.forEach((element) {
+      a[element.year]=element;
+    });
+    price2=   a.entries.map((e) => e.value).toList();
+
+    print("dataToMap  =>${dataToMap.length}");
+    print("city?.name  =>${AllDrob.city?.name}");
+    print("price.length  =>${price.length}");
+    price2. forEach((element) {
+      print("element.year   =>  ${element.year}");
+      print("element.year   =>  ${element.year}");
     });
   }
 }
 
-
-
-//
-//
-//
-//
-// Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Container(
-// padding: const EdgeInsets.all(1),
-// decoration: BoxDecoration(
-// color: Colors.white,
-// borderRadius: const BorderRadius.only(
-// topLeft: Radius.circular(10),
-// topRight: Radius.circular(10),
-// bottomLeft: Radius.circular(10),
-// bottomRight: Radius.circular(10)),
-// boxShadow: [
-// BoxShadow(
-// color: Colors.grey.withOpacity(0.5),
-// spreadRadius: 5,
-// blurRadius: 7,
-// offset: const Offset(0, 3), // changes position of shadow
-// ),
-// ],
-// ),
-// height: size.height * .26,
-// child: Row(
-// crossAxisAlignment: CrossAxisAlignment.center,
-// mainAxisAlignment: MainAxisAlignment.start,
-// children: [
-// Expanded(
-// flex: 1,
-// child: Container(
-// height: size.height * .2,
-// child:adverts.eEmbedded.adverts.!=null? Image.network(
-//
-// adverts.photo,
-// fit: BoxFit.fill,
-// ):   Image.asset("assets/images/no-image.jpeg"),
-// ),
-// ),
-// Expanded(
-// flex: 1,
-// child: Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// mainAxisAlignment: MainAxisAlignment.start,
-// children: [
-// Container(
-// child: Text(
-// adverts.title,
-// maxLines: 3,
-// overflow: TextOverflow.ellipsis,
-// style: TextStyle(
-// fontWeight: FontWeight.bold, fontSize: 13),
-// ),
-// ),
-// SizedBox(
-// height: 10,
-// ),
-// Text(
-// numberFormat.format(adverts.price) +
-// ' ' +
-// SettingsApp.moneySymbol,
-// style: TextStyle(
-// color: framColor,
-// fontWeight: FontWeight.bold,
-// fontSize: 15),
-// softWrap: true,
-// overflow: TextOverflow.fade,
-// ),
-// Spacer(),
-// Row(
-// children: [
-// Icon(
-// Icons.location_on,
-// color: Colors.grey,
-// size: 18,
-// ),
-// Container(
-// width: size.width * .28,
-// child: Text(
-// "${adverts.region.name}, ${adverts.city.name}",
-// softWrap: true,
-// style: TextStyle(color: Colors.grey, fontSize: 12),
-// overflow: TextOverflow.ellipsis,
-// maxLines: 4,
-// ),
-// ),
-// ],
-// ),
-// SizedBox(
-// height: 4,
-// ),
-// Row(
-// mainAxisAlignment: MainAxisAlignment.spaceAround,
-// children: [
-// InkWell(
-// onTap: () {
-// print("annonce ajouté");
-// isFavorite != isFavorite;
-// },
-// child: Icon(
-// isFavorite
-// ? Icons.favorite_outline_rounded
-//     : Icons.favorite,
-// color: Colors.pink,
-// ),
-// )
-// ],
-// ),
-// ],
-// ),
-// ),
-// )
-// ],
-// ),
-// ),
-//);
-
 class Price {
   int year;
-  double price;
- // double oldPrice;
+  double p;
 
-  Price({required this.year, required this.price});
+  Price({required this.year, required this.p});
 }
