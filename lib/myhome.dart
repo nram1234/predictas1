@@ -331,7 +331,7 @@ class _MyHomeState extends State<MyHome> {
 //
 // print(doc);
                                                 FirebaseFirestore.instance
-                                                    .collection('fav')
+                                                    .collection('fav').doc(FirebaseAuth.instance.currentUser?.uid).collection("userfav")
                                                     .doc(de[widget
                                                     .adverts
                                                     ?.eEmbedded
@@ -348,7 +348,7 @@ class _MyHomeState extends State<MyHome> {
                                                 getD();
                                               } else {
                                                 FirebaseFirestore.instance
-                                                    .collection('fav')
+                                                    .collection('fav').doc(FirebaseAuth.instance.currentUser?.uid).collection("userfav")
                                                     .add({
                                                   "id": widget
                                                       .adverts
@@ -367,7 +367,7 @@ class _MyHomeState extends State<MyHome> {
                                                     ?.adverts?[pos].toJson() as Map<String, dynamic>;
 
                                                 FirebaseFirestore.instance
-                                                    .collection('adsFav')
+                                                    .collection('adsFav').doc(FirebaseAuth.instance.currentUser?.uid).collection("userfav")
                                                     .add( d).then((value) {
                                                   print("i add data");
                                                   getD();

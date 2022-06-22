@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'networking/Advert_json.dart';
@@ -33,7 +34,7 @@ Size size=MediaQuery.of(context).size;
     return Scaffold(appBar: AppBar(title: const Text("fav"),centerTitle: true,)
       ,body:
       StreamBuilder<QuerySnapshot>(
-        stream: fave.get().asStream(),
+        stream: fave.doc(FirebaseAuth.instance.currentUser?.uid).collection("userfav").get().asStream(),
         builder: (context, snapshot) {
           if(snapshot.hasData){
 
